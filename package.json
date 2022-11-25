@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "canvas-to-image": "^2.2.0",
+    "fabric": "^5.2.4",
+    "konva": "^8.3.14",
     "next": "13.0.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-konva": "^18.2.3"
   },
   "devDependencies": {
     "eslint": "8.28.0",
