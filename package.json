@@ -12,7 +12,7 @@
   "dependencies": {
     "fabric": "^5.2.4",
     "fabric-pure-browser": "^5.1.0",
-    "jdom": "^3.2.5",
+    "jsdom": "^20.0.3",
     "next": "13.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
