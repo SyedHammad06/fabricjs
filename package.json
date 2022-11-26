@@ -4,16 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "./setup.sh && next build",
+    "build": "setup.sh && next build",
     "start": "next start",
     "lint": "next lint",
     "vercel-build": "yum install libuuid-devel libmount-devel && cp /lib64/{libuuid,libmount,libblkid}.so.1 node_modules/canvas/build/Release/ && next build"
   },
   "dependencies": {
-    "canvas": "^2.10.2",
-    "fabric-pure-browser": "^5.1.0",
-    "jdom": "^3.2.5",
-    "jsdom": "^20.0.3",
+    "fabric": "^5.2.4",
     "next": "13.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"

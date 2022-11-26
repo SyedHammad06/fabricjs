@@ -1,12 +1,12 @@
 import { useLayoutEffect, useRef } from 'react';
-import { fabric } from 'fabric-pure-browser';
+import { fabric } from 'fabric';
 
 export default function Home() {
   const canvasRef = useRef(null);
 
   useLayoutEffect(() => {
     const canvas = new fabric.StaticCanvas('canvas', {
-      width: window.innerWidth - 30,
+      width: window.innerWidth - 10,
       height: window.innerHeight - 65,
       preserveObjectStacking: true,
     });
