@@ -5,11 +5,11 @@ export default function Home() {
   const canvasRef = useRef(null);
 
   useLayoutEffect(() => {
-    // const canvas = new fabric.StaticCanvas('canvas', {
-    //   width: window.innerWidth - 10,
-    //   height: window.innerHeight - 65,
-    //   preserveObjectStacking: true,
-    // });
+    const canvas = new fabric.StaticCanvas('canvas', {
+      width: window.innerWidth - 10,
+      height: window.innerHeight - 65,
+      preserveObjectStacking: true,
+    });
     // const background = fabric.Image.fromURL(
     //   'https://images.unsplash.com/photo-1669236712949-b58f9758898d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1032&q=80',
     //   function (oImg) {
