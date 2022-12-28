@@ -12,8 +12,8 @@ html {
   display: none;
 }
 
-#canvas {
-  margin: 5px 0 0 5px;
+canvas {
+  margin: 5px;
   border: 1px solid black;
 }
 
