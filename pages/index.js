@@ -1,12 +1,13 @@
-import { useLayoutEffect, useRef, useEffect, useState } from 'react';
+import { useLayoutEffect, useRef, useEffect, useState, use } from 'react';
 import { fabric } from 'fabric-pure-browser';
 
 export default function Home() {
   const canvasRef = useRef(null);
   const canvasRef2 = useRef(null);
+  const backImgRef = useRef(null);
   const [state, setState] = useState('');
   const [initCanvas, setInitCanvas] = useState();
-  const [backImg, setBackImg] = useState('/back-place.jpg');
+  const [backImg, setBackImg] = useState('./back-place.jpg');
 
   // useEffect(() => {
   //   const canvas = new fabric.StaticCanvas('canvas', {
@@ -184,46 +185,95 @@ export default function Home() {
   //   canvas.renderAll();
   // }, []);
 
-  useEffect(() => {
+  const loadJSCode = () => {
     const canvas = new fabric.Canvas('canvas', {
-      width: window.innerWidth - 30,
-      height: window.innerHeight - 70,
+      width: window.innerWidth - 43,
+      height: window.innerHeight - 50,
     });
 
-    fabric.Image.fromURL(
-      backImg,
-      function (back) {
-        back.scaleToWidth(canvas.width);
-        canvas.add(back);
-        canvas.centerObject(back);
-        canvas.renderAll();
+    const image = new Image();
+    image.src = '/back-place.jpg';
 
-        const rect = new fabric.Rect({
-          width: 100,
-          height: 200,
-          fill: 'red',
-          left: 20,
-          top: 20,
+    const loadImage = (img) => {
+      img.onload = function () {
+        canvas.setBackgroundImage(img.src, canvas.renderAll.bind(canvas), {
+          originX: 'center',
+          originY: 'center',
+          top: canvas.height / 2,
+          left: canvas.width / 2,
         });
+        canvas.backgroundImage
+          ? canvas.backgroundImage.scaleToWidth(canvas.width)
+          : null;
+      };
+    };
 
-        canvas.add(rect);
+    loadImage(image);
 
-        setInitCanvas(canvas);
+    document
+      .getElementById('input')
+      .addEventListener('change', handleFileSelect, false);
 
-        canvas.on('object:moving', function (e) {
-          back._element.src = backImg;
-        });
-
-        canvas.on('object:modified', function (e) {
-          return setInitCanvas(canvas);
-        });
-      },
-      {
-        selectable: false,
-        crossOrigin: 'anonymous',
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (f) {
+          const data = f.target.result;
+          const image = new Image();
+          image.src = data;
+          loadImage(image);
+        };
+        reader.readAsDataURL(file);
       }
-    );
-  }, [backImg]);
+    }
+
+    const rect = new fabric.Rect({
+      left: 20,
+      top: 20,
+      fill: 'red',
+      width: 100,
+      height: 100,
+    });
+
+    canvas.add(rect);
+    canvas.renderAll();
+  };
+
+  useEffect(() => {
+    loadJSCode();
+
+    // fabric.Image.fromURL('/back-place.jpg', function (back) {
+    //   back.set({ selectable: 'false' });
+    //   back.set({ crossOrigin: 'anonymous' });
+    //   back.scaleToWidth(canvas.width);
+    //   canvas.add(back);
+    //   canvas.centerObject(back);
+    //   canvas.renderAll();
+
+    //   const rect = new fabric.Rect({
+    //     width: 100,
+    //     height: 200,
+    //     fill: 'red',
+    //     left: 20,
+    //     top: 20,
+    //   });
+
+    //   canvas.add(rect);
+
+    //   back.set({ fill: changeBackground() });
+
+    //   setInitCanvas(canvas);
+
+    //   canvas.on('object:moving', function (e) {
+    //     back._element.src = backImg;
+    //   });
+
+    //   canvas.on('object:modified', function (e) {
+    //     return setInitCanvas(canvas);
+    //   });
+    // });
+  }, []);
 
   useEffect(() => {
     const canvas = new fabric.Canvas('canvas2', {
@@ -253,12 +303,7 @@ export default function Home() {
   };
 
   const changeBackground = (e) => {
-    var file = e.target.files[0];
-    var reader = new FileReader();
-    reader.onload = function (file) {
-      setBackImg(file.target.result);
-    };
-    reader.readAsDataURL(file);
+    loadJSCode();
   };
 
   return (
@@ -267,7 +312,13 @@ export default function Home() {
       <canvas id='canvas2' ref={canvasRef2} style={{ marginTop: '2rem' }} />
       <img src='./logo.png' alt='logo' id='img' crossOrigin='anonymous' />
       <div style={{ marginTop: '30px', marginLeft: '5px' }}>
-        <input type='file' accept='image/*' onChange={changeBackground} />
+        <input
+          type='file'
+          accept='image/*'
+          ref={backImgRef}
+          id='input'
+          onChange={changeBackground}
+        />
       </div>
       <button onClick={downloadImg}>Download Canvas</button>
       <button onClick={saveCanvas}>Save canvas</button>
