@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useEffect, useState, use } from 'react';
-import { fabric } from 'fabric-pure-browser';
+import { fabric } from 'fabric';
 
 export default function Home() {
   const canvasRef = useRef(null);
